@@ -1,0 +1,20 @@
+using System;
+
+namespace API.Models;
+
+public class Produto
+{
+    //Atributo, propriedade e característica - C#
+    public string? Nome { get; set; }
+
+    //Atributo, propriedade e característica - Java
+    // private string nome;
+    // public string getNome()
+    // {
+    //     return this.nome;
+    // }
+    // public void setNome(string nome)
+    // {
+    //     this.nome = nome;
+    // }
+}
