@@ -4,10 +4,15 @@ GET http://localhost:5273
 ### Listar produtos
 GET http://localhost:5273/api/produto/listar
 
+
+### Buscar produto
+GET http://localhost:5273/api/produto/buscar/c10505bd-6021-47f4-80ac-e873b7b3896e1
+
 ### Cadastrar produto
 POST http://localhost:5273/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "nome" : "Mouse"
+    "nome" : "Mouse",
+    "preco" : 7.5
 }
