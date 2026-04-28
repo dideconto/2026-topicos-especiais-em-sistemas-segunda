@@ -1,8 +1,13 @@
 //CONTRUIR A APLICAÇÃO BASE
+using API.Data;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Adicionar o contexto na lista de serviços da aplicação
+builder.Services.AddDbContext<AppDataContext>();
+
 var app = builder.Build();
 
 List<Produto> produtos = new List<Produto>();
@@ -33,29 +38,32 @@ List<Produto> produtos = new List<Produto>();
 app.MapGet("/", () => "API de Produtos!");
 
 //GET: /api/produto/listar
-app.MapGet("/api/produto/listar", () =>
+app.MapGet("/api/produto/listar", 
+    ([FromServices] AppDataContext ctx) =>
 {
-    if(produtos.Any())
+    if(ctx.Produtos.Any())
     {
         //Configurar a resposta da requisição
-        return Results.Ok(produtos);
+        return Results.Ok(ctx.Produtos.ToList());
     }
     return Results.NotFound("Lista de produtos vazia!");
 });
 
 //POST: /api/produto/cadastrar
 app.MapPost("/api/produto/cadastrar", 
-    ([FromBody] Produto produto) =>
+    ([FromBody] Produto produto, 
+    [FromServices] AppDataContext ctx) =>
 {
     //Não permitir o cadastro de um produto com o mesmo nome
-    for(int i = 0; i < produtos.Count; i++)
-    {
-        if(produtos[i].Nome == produto.Nome)
-        {
-            return Results.Conflict("Esse produto já existe!");
-        }
-    }
-    produtos.Add(produto);
+    // for(int i = 0; i < produtos.Count; i++)
+    // {
+    //     if(produtos[i].Nome == produto.Nome)
+    //     {
+    //         return Results.Conflict("Esse produto já existe!");
+    //     }
+    // }
+    ctx.Produtos.Add(produto);
+    ctx.SaveChanges();
     return Results.Created("", produto);
 });
 

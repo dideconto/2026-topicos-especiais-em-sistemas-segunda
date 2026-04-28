@@ -6,7 +6,7 @@ GET http://localhost:5273/api/produto/listar
 
 
 ### Buscar produto
-GET http://localhost:5273/api/produto/buscar/c10505bd-6021-47f4-80ac-e873b7b3896e1
+GET http://localhost:5273/api/produto/buscar/b4cb1b32-8139-49c2-8182-47f0f8a91044
 
 ### Cadastrar produto
 POST http://localhost:5273/api/produto/cadastrar
