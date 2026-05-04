@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace API.Migrations
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    Quantidade = table.Column<int>(type: "INTEGER", nullable: false),
                     Preco = table.Column<double>(type: "REAL", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

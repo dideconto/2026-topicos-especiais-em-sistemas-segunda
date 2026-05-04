@@ -4,9 +4,8 @@ GET http://localhost:5273
 ### Listar produtos
 GET http://localhost:5273/api/produto/listar
 
-
 ### Buscar produto
-GET http://localhost:5273/api/produto/buscar/b4cb1b32-8139-49c2-8182-47f0f8a91044
+GET http://localhost:5273/api/produto/buscar/d77a4814-a20b-441a-be93-e2c0aebf2e59
 
 ### Cadastrar produto
 POST http://localhost:5273/api/produto/cadastrar
@@ -14,5 +13,21 @@ Content-Type: application/json
 
 {
     "nome" : "Mouse",
-    "preco" : 7.5
+    "preco" : 7.5,
+    "quantidade" : 270
+}
+
+### Deletar produto
+DELETE http://localhost:5273/api/produto/deletar/ab3ee98f-b6b7-4eb4-a350-b7f0c6f39212
+
+### Alterar produto
+PUT http://localhost:5273/api/produto/alterar
+Content-Type: application/json
+
+{
+    "id": "79239f2f-a0df-4184-aace-6a61be38ff9d",
+    "nome" : "Teclado Alterado",
+    "preco" : 7.5,
+    "quantidade" : 1234
+
 }

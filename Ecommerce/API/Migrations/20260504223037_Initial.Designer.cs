@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20260428001112_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260504223037_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace API.Migrations
 
                     b.Property<double>("Preco")
                         .HasColumnType("REAL");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
