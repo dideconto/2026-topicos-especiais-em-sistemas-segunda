@@ -8,21 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 //Adicionar o contexto na lista de serviços da aplicação
 builder.Services.AddDbContext<AppDataContext>();
 
+builder.Services.AddCors(options =>
+    options.AddPolicy("Acesso Total", 
+        configs => configs
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod())
+);
+
 var app = builder.Build();
 
 List<Produto> produtos = new List<Produto>();
-// {
-//     new Produto { Nome = "iPhone 14" },
-//     new Produto { Nome = "Samsung Galaxy S23" },
-//     new Produto { Nome = "PlayStation 5" },
-//     new Produto { Nome = "Xbox Series X" },
-//     new Produto { Nome = "Notebook Dell XPS 13" },
-//     new Produto { Nome = "Apple Watch Series 9" },
-//     new Produto { Nome = "Kindle Paperwhite" },
-//     new Produto { Nome = "GoPro Hero 12" },
-//     new Produto { Nome = "Sony WH-1000XM5" },
-//     new Produto { Nome = "Nintendo Switch" }
-// };
 
 //Endpoints - ADICIONAR FUNCIONALIDADES NA APLICAÇÃO
 //Requisição
@@ -125,6 +121,8 @@ app.MapPut("/api/produto/alterar",
 
     return Results.NotFound("Produto não encontrado!");
 });
+
+app.UseCors("Acesso Total");
 
 //RODAR A APLICAÇÃO
 app.Run();
