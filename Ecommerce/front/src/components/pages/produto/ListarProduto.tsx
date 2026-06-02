@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import api from "../../../services/api";
+import Produto from "../../../models/Produto";
 
 //REGRAS PARA A CRIAÇÃO DE NOVOS COMPONENTES
 //1 - O componente deve começar com uma letra maiúscula
@@ -9,18 +11,23 @@ import { useEffect, useState } from "react";
 function ListarProdutos() {
 
     //Estados - Variáveis 
-    const [produtos, setProdutos] = useState([]);
+    const [produtos, setProdutos] = useState<Produto[]>([]);
 
     //O useEffect é executado no carregamento do componente
     useEffect(() => {
-        fetch("http://localhost:5273/api/produto/listar")
-            .then(resposta => {
-                return resposta.json();
-            }).then(dados => {
-                // console.table(dados);
-                setProdutos(dados);
-            });
+        carregarProdutoAPI();
     },[])
+
+    async function carregarProdutoAPI(){
+        try {
+            const resposta = 
+                await api.get<Produto[]>("/api/produto/listar");            
+            setProdutos(resposta.data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div className="ListarProdutos">
@@ -37,7 +44,7 @@ function ListarProdutos() {
                 </thead>
                 <tbody>
                     {produtos.map((produto : any) => (
-                        <tr>
+                        <tr key={produto.id}>
                             <td>{produto.id}</td>
                             <td>{produto.nome}</td>
                             <td>{produto.quantidade}</td>
