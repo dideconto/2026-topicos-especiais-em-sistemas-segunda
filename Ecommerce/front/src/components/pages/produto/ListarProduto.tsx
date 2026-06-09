@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../../services/api";
 import Produto from "../../../models/Produto";
+import { Link } from "react-router-dom";
 
 //REGRAS PARA A CRIAÇÃO DE NOVOS COMPONENTES
 //1 - O componente deve começar com uma letra maiúscula
@@ -29,6 +30,16 @@ function ListarProdutos() {
         }
     }
 
+    async function deletarProduto(id : string){
+        try{
+            const resposta = 
+                await api.delete(`/api/produto/deletar/${id}`);
+            carregarProdutoAPI();
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     return (
         <div className="ListarProdutos">
             <h1>Listar Produtos</h1>
@@ -40,6 +51,8 @@ function ListarProdutos() {
                         <th>Preço</th>
                         <th>Quantidade</th>
                         <th>Criado Em</th>
+                        <th>Deletar</th>
+                        <th>Alterar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +63,16 @@ function ListarProdutos() {
                             <td>{produto.quantidade}</td>
                             <td>{produto.preco}</td>
                             <td>{produto.criadoEm}</td>
+                            <td>
+                                <button onClick={() => deletarProduto(produto.id)}>
+                                    Deletar
+                                </button>
+                            </td>
+                            <td>
+                                <Link to={`/pages/produto/alterar/${produto.id}`}>
+                                    Alterar
+                                </Link>
+                            </td>
                         </tr>
                     ))}
                 </tbody> 

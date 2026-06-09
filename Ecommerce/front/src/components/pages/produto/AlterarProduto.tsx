@@ -1,49 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Produto from "../../../models/Produto";
 import api from "../../../services/api";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CadastrarProduto(){
+function AlterarProduto(){
 
     //Estados
     const [nome, setNome] =  useState("");
     const [quantidade, setQuantidade] =  useState("");
     const [preco, setPreco] =  useState("");
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        buscarProdutoAPI();
+    }, [])
+
+    async function buscarProdutoAPI(){
+        try {
+            const resposta = await 
+                api.get<Produto>(`/api/produto/buscar/${id}`);
+            setNome(resposta.data.nome);
+            setQuantidade(resposta.data.quantidade!.toString());
+            setPreco(String(resposta.data.preco));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function enviarProdutoAPI(e : any){
         e.preventDefault();
-
-        // const resposta = fetch("url_inteira",
-        //     {
-        //         method : "POST",
-        //         headers : {
-        //             "Content-Type" : "application/json"
-        //         },
-        //         body: JSON.stringify({nome})
-        //     }
-        // )
-        // .then(resposta => {
-        //     //fazer algo caso de certo
-        // })
-        // .catch(error => {
-        //     //fazer algo caso de errado
-        // });
         
         try {
             const produto : Produto = { 
+                id,
                 nome, 
                 quantidade: Number(quantidade),
                 preco: Number(preco)
             };
 
-
            const resposta = 
-            await api.post("/api/produto/cadastrar", produto);
+            await api.put("/api/produto/alterar", produto);
 
             setNome("");
             setPreco("");
             setQuantidade("");
 
-            console.log(resposta.data);
+            navigate("/");
         } catch (error) {
             console.log(error);
         }
@@ -52,7 +55,7 @@ function CadastrarProduto(){
 
     return(
         <div className="CadastrarProduto">
-            <h1>Cadastrar Produto</h1>
+            <h1>Alterar Produto</h1>
             <form onSubmit={enviarProdutoAPI}>
                 <div>
                     <label>Nome:</label>
@@ -74,7 +77,7 @@ function CadastrarProduto(){
                 </div>
                 <div>
                     <button type="submit">
-                        Cadastrar
+                        Salvar
                     </button>
                 </div>
             </form>
@@ -82,4 +85,4 @@ function CadastrarProduto(){
     )
 }
 
-export default CadastrarProduto;
+export default AlterarProduto;
