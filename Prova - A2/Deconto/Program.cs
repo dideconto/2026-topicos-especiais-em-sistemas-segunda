@@ -5,6 +5,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDataContext>();
 var app = builder.Build();
 
+//POST: /api/livro/popular
+app.MapPost("/api/livro/popular", (AppDataContext ctx) =>
+{
+    List<Livro> livros = new List<Livro>()
+    {
+        new() { Nome = "Clean Code", Autor = "Robert C. Martin", CriadoEm = DateTime.Now },
+        new() { Nome = "Clean Architecture", Autor = "Robert C. Martin", CriadoEm = DateTime.Now },
+        new() { Nome = "Refactoring", Autor = "Martin Fowler", CriadoEm = DateTime.Now },
+        new() { Nome = "Domain-Driven Design", Autor = "Eric Evans", CriadoEm = DateTime.Now },
+        new() { Nome = "Design Patterns", Autor = "GoF", CriadoEm = DateTime.Now },
+        new() { Nome = "The Pragmatic Programmer", Autor = "Andrew Hunt", CriadoEm = DateTime.Now },
+        new() { Nome = "Code Complete", Autor = "Steve McConnell", CriadoEm = DateTime.Now },
+        new() { Nome = "Patterns of Enterprise Application Architecture", Autor = "Martin Fowler", CriadoEm = DateTime.Now },
+        new() { Nome = "Head First Design Patterns", Autor = "Eric Freeman", CriadoEm = DateTime.Now },
+        new() { Nome = "Working Effectively with Legacy Code", Autor = "Michael Feathers", CriadoEm = DateTime.Now }
+    };
+
+    ctx.Livros.AddRange(livros);
+    ctx.SaveChanges();
+
+    return Results.Created("", livros);
+});
+
 //POST: /api/livro/cadastrar
 app.MapPost("/api/livro/cadastrar", ([FromBody] Livro livro, [FromServices] AppDataContext ctx) =>
 {
